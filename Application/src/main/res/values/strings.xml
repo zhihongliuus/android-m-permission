@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OK</string>
+    <string name="contacts_string"><![CDATA[Total number of contacts: %1$,d<br/>First contact: <b>%2$s</b>]]></string>
+    <string name="contacts_none">No contacts stored on device.</string>
+    <string name="contacts_empty">Contacts not loaded.</string>
+    <string name="add_contact">Add a contact</string>
+    <string name="show_contact">Show first contact</string>
+    <string name="contacts_intro">This fragment demonstrates access to the contact database on the device.\n
+            Clicking \"Add a contact\" adds a new contact named "__DUMMY ENTRY" directly into the database.\n
+    Clicking \"Show first contact\" accesses the contact database to display the name of the first contact.</string>
+    <string name="camera_unavailable"><b>Camera could not be opened.</b>\nThis occurs when the camera is not available (for example it is already in use) or if the system has denied access (for example when camera access has been disabled).</string>
+    <string name="calendar_string"><![CDATA[Total number of calendars: %1$, d<br/>Next calendar: <b>%2$s on %3$s at %4$s</b>]]></string>
+    <string name="calendars_none">No calendars stored on device.</string>
+    <string name="calendar_empty">Calendar not loaded.</string>
+    <string name="calendar_intro">This fragment demonstrates access to the calendar database on the device.</string>
+    <string name="calendar_introduction">Click the buttons below to access calendar database.</string>
+    <string name="back">Back</string>
+    <string name="show_camera">Show camera preview</string>
+    <string name="show_contacts">Show and add contacts</string>
+    <string name="show_calendar">Show next calendar</string>
+    <string name="show_location">Show location preview</string>
+    <string name="camera_introduction">Click the buttons below to show a camera preview.</string>
+    <string name="permision_available_camera">Camera Permission has been granted. Preview can now be opened.</string>
+    <string name="contacts_introduction">Click the buttons below to access the contacts database.</string>
+    <string name="permision_available_contacts">Contacts Permissions have been granted. Contacts screen can now be opened.</string>
+    <string name="permision_available_calendar">Calendar Permissions have been granted. Calendar screen can now be opened.</string>
+    <string name="permissions_not_granted">Permissions were not granted.</string>
+    <string name="permission_camera_rationale">Camera permission is needed to show the camera preview.</string>
+    <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access.</string>
+    <string name="permission_calendar_rationale">Calendar permissions are needed to demonstrate access.</string>
+    <string name="location_introduction">Click the button bellow to show location preview.</string>
+</resources>
