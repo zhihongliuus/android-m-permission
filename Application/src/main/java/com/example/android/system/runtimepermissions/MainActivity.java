@@ -23,6 +23,7 @@ import com.example.android.common.logger.MessageOnlyLogFilter;
 import com.example.android.system.runtimepermissions.calendar.CalendarFragment;
 import com.example.android.system.runtimepermissions.camera.CameraPreviewFragment;
 import com.example.android.system.runtimepermissions.contacts.ContactsFragment;
+import com.example.android.system.runtimepermissions.location.LocationPreviewFragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -102,10 +104,23 @@ public class MainActivity extends SampleActivityBase
     private static final int REQUEST_CALENDAR = 2;
 
     /**
+     * Id to identify a location permission request.
+     */
+    private static final int REQUEST_LOCATION = 3;
+
+    /**
      * Permissions required to read and write contacts. Used by the {@link ContactsFragment}.
      */
     private static String[] PERMISSIONS_CONTACT = {Manifest.permission.READ_CONTACTS,
             Manifest.permission.WRITE_CONTACTS};
+
+    /**
+     * Permissions required to location. Used by the {@link ContactsFragment}.
+     */
+    private static String[] PERMISSIONS_LOCATION = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     // Whether the Log Fragment is currently shown.
     private boolean mLogShown;
@@ -291,7 +306,7 @@ public class MainActivity extends SampleActivityBase
                     .show();
         } else {
             // Contact permissions have not been granted yet. Request them directly.
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_CALENDAR},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR},
                     REQUEST_CALENDAR);
         }
         // END_INCLUDE(contacts_permission_request)
@@ -330,6 +345,86 @@ public class MainActivity extends SampleActivityBase
                 .replace(R.id.sample_content_fragment, ContactsFragment.newInstance())
                 .addToBackStack("contacts")
                 .commit();
+    }
+
+    /**
+     * Called when the 'show camera' button is clicked.
+     * Callback is defined in resource layout definition.
+     */
+    public void showLocation(View view) {
+        Log.i(TAG, "Show location button pressed. Checking location.");
+        // BEGIN_INCLUDE(camera_permission)
+        // Check if the Camera permission is already available.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Camera permission has not been granted.
+
+            requestLocationPermission();
+
+        } else {
+
+            // Camera permissions is already available, show the camera preview.
+            Log.i(TAG,
+                    "Location permission has already been granted. Displaying location preview.");
+            showLocationPreview();
+        }
+        // END_INCLUDE(camera_permission)
+
+    }
+
+    /**
+     * Display the {@link CameraPreviewFragment} in the content area if the required Camera
+     * permission has been granted.
+     */
+    private void showLocationPreview() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.sample_content_fragment, LocationPreviewFragment.newInstance())
+                .addToBackStack("contacts")
+                .commit();
+    }
+
+    /**
+     * Requests the Camera permission.
+     * If the permission has been denied previously, a SnackBar will prompt the user to grant the
+     * permission, otherwise it is requested directly.
+     */
+    private void requestLocationPermission() {
+        Log.i(TAG, "Location permission has NOT been granted. Requesting permission.");
+
+        // BEGIN_INCLUDE(camera_permission_request)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example if the user has previously denied the permission.
+            Log.i(TAG,
+                    "Displaying location permission rationale to provide additional context.");
+            Snackbar.make(mLayout, R.string.permission_camera_rationale,
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    PERMISSIONS_LOCATION,
+                                    REQUEST_LOCATION);
+                        }
+                    })
+                    .show();
+        } else {
+
+            // Camera permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions(this, PERMISSIONS_LOCATION,
+                    REQUEST_LOCATION);
+        }
+        // END_INCLUDE(camera_permission_request)
     }
 
 
