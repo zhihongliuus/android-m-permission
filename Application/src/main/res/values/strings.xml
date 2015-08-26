@@ -30,4 +30,5 @@
     <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access.</string>
     <string name="permission_calendar_rationale">Calendar permissions are needed to demonstrate access.</string>
     <string name="location_introduction">Click the button bellow to show location preview.</string>
+    <string name="my_location">MY LOCATION</string>
 </resources>
